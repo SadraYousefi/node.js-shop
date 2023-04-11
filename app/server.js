@@ -25,10 +25,14 @@ module.exports = class Application {
     mongoose.connect(this.#DB_URI)
   }
   createServer() {
-    const http = require("http");
-    http.createServer(this.#app).listen(this.#PORT, () => {
-      console.log(`http://localhost:${this.#PORT}`);
-    });
+    try {
+      const http = require("http");
+      http.createServer(this.#app).listen(this.#PORT, () => {
+        console.log(`http://localhost:${this.#PORT}`);
+      });
+    } catch (error) {
+      console.log(error)
+    }
   }
   createRoute() {
     this.#app.use(allRoutes)

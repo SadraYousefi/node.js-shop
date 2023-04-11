@@ -1,6 +1,6 @@
 const Application = require("./app/server");
-
+require("dotenv").config();
 new Application(
-  3000,
-  "mongodb+srv://sadredinyousefi:13781999@myapp.oywtoen.mongodb.net/?retryWrites=true&w=majority"
+  process.env.PORT,
+  process.env.DB_URI ,
 );
