@@ -17,7 +17,7 @@ module.exports = class Application {
     this.errorHandler();
   }
   configApplication() {
-    this.#app.use(express.json);
+    this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
     this.#app.use(express.static(path.join(__dirname, "..", "public")));
   }
@@ -27,7 +27,7 @@ module.exports = class Application {
   createServer() {
     try {
       const http = require("http");
-      http.createServer(this.#app).listen(this.#PORT, () => {
+      http.createServer(this.#app ).listen(this.#PORT, () => {
         console.log(`http://localhost:${this.#PORT}`);
       });
     } catch (error) {
@@ -39,7 +39,7 @@ module.exports = class Application {
   }
   errorHandler() {
     this.#app.use((req, res, next) => {
-      return res.status(404).json({
+      res.status(404).json({
         statusCode: 404,
         msg: "Page Not Found",
       });
