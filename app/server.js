@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const { allRoutes } = require("./router/router");
 const morgan = require("morgan");
+const { create } = require("domain");
+const createHttpError = require("http-errors");
 module.exports = class Application {
   #app = express();
   #PORT;
@@ -31,10 +33,10 @@ module.exports = class Application {
     mongoose.connection.on("disconnected ", () => {
       console.log("mongoose disconnected");
     });
-    process.on("SIGINT" , async ()=> { 
-      await mongoose.connection.close()
-      process.exit(0)
-    })
+    process.on("SIGINT", async () => {
+      await mongoose.connection.close();
+      process.exit(0);
+    });
   }
   createServer() {
     try {
@@ -51,17 +53,17 @@ module.exports = class Application {
   }
   errorHandler() {
     this.#app.use((req, res, next) => {
-      res.status(404).json({
-        statusCode: 404,
-        msg: "Page Not Found",
-      });
+      next(createHttpError.NotFound("Page not found"));
     });
     this.#app.use((error, req, res, next) => {
-      const statusCode = error.status || 500;
-      const msg = error.message || "Internal error";
+      const serverError = createHttpError.InternalServerError()
+      const statusCode = error.status || serverError.statusCode;
+      const msg = error.message || serverError.message;
       return res.status(statusCode).json({
-        statusCode,
-        msg,
+        errros: {
+          statusCode,
+          msg,
+        },
       });
     });
   }
