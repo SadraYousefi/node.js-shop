@@ -6,6 +6,8 @@ const { allRoutes } = require("./router/router");
 const morgan = require("morgan");
 const { create } = require("domain");
 const createHttpError = require("http-errors");
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 module.exports = class Application {
   #app = express();
   #PORT;
@@ -24,6 +26,27 @@ module.exports = class Application {
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
     this.#app.use(express.static(path.join(__dirname, "..", "public")));
+    this.#app.use(
+      "/api-doc",
+      swaggerUI.serve,
+      swaggerUI.setup(
+        swaggerJsDoc({
+          swaggerDefinition: {
+            info: {
+              title: "Simple Node.js shop",
+              version: "1.0.0",
+              description: "Way to sell your stuff",
+            },
+            servers: [
+              {
+                url: "http://localhost:3000",
+              },
+            ],
+          },
+          apis: ["./app/router/*/*.js"],
+        })
+      )
+    );
   }
   connectToDB() {
     mongoose.connect(this.#DB_URI);
@@ -56,7 +79,7 @@ module.exports = class Application {
       next(createHttpError.NotFound("Page not found"));
     });
     this.#app.use((error, req, res, next) => {
-      const serverError = createHttpError.InternalServerError()
+      const serverError = createHttpError.InternalServerError();
       const statusCode = error.status || serverError.statusCode;
       const msg = error.message || serverError.message;
       return res.status(statusCode).json({
