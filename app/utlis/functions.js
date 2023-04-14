@@ -10,13 +10,11 @@ function signAccessToken(userId) {
     const user = await UserModel.findById(userId)
     const payload = {
         mobile : user.mobile ,
-        userID: user._id,
     };
-    const secret = process.env.SECRET_KEY;
     const options = {
         expiresIn : "1h"
     };
-    JWT.sign(payload , secret ,options , (err , token)=> { 
+    JWT.sign(payload , process.env.ACCESS_TOKEN_SECRET_KEY ,options , (err , token)=> { 
         if(err) reject(createHttpError.InternalServerError("Internal Server"))
         resolve(token)
 

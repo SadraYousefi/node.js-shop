@@ -8,6 +8,7 @@ const { create } = require("domain");
 const createHttpError = require("http-errors");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const cors = require("cors")
 module.exports = class Application {
   #app = express();
   #PORT;
@@ -22,6 +23,7 @@ module.exports = class Application {
     this.errorHandler();
   }
   configApplication() {
+    this.#app.use(cors())
     this.#app.use(morgan("dev"));
     this.#app.use(express.json());
     this.#app.use(express.urlencoded({ extended: true }));
