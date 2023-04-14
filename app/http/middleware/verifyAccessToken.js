@@ -22,7 +22,7 @@ function verifyAccessToken(req, res, next) {
         if (!user)
           return next(createHttpError.Unauthorized("Your dont have account"));
         req.user = user;
-        next();
+        return next();
       }
     );
   } else return next(createHttpError.Unauthorized("please login first!"));
