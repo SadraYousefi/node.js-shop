@@ -2,6 +2,7 @@ const createHttpError = require("http-errors");
 const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/user");
 require("dotenv").config()
+const {redisClient} = require("./init_redis")
 function randomNumberGenerator() {
   return Math.floor(Math.random() * 100000);
 }
@@ -31,8 +32,9 @@ function signRefreshToken(userId) {
     const options = {
         expiresIn : "1y"
     };
-    JWT.sign(payload , process.env.REFRESH_TOKEN_SECRET_KEY ,options , (err , token)=> { 
+    JWT.sign(payload , process.env.REFRESH_TOKEN_SECRET_KEY ,options ,async (err , token)=> { 
         if(err) reject(createHttpError.InternalServerError("Internal Server"))
+        await redisClient.SETEX(user.mobile ,31536000, token )
         resolve(token)
 
     } )
@@ -54,7 +56,9 @@ function verifyRefreshToken(token) {
         );
         if (!user)
           rej(createHttpError.Unauthorized("Your dont have account"));
-        res(mobile)
+        const refreshToken = await redisClient.get(user.mobile);
+        if(token !== refreshToken) rej(createHttpError.Unauthorized("Refresh Token is not valid"))
+        return res(mobile)
       }
     );
   })

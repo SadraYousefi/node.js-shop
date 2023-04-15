@@ -18,6 +18,7 @@ module.exports = class Application {
     this.#DB_URI = DB_URI;
     this.configApplication();
     this.connectToDB();
+    this.initRedis();
     this.createServer();
     this.createRoute();
     this.errorHandler();
@@ -62,6 +63,9 @@ module.exports = class Application {
       await mongoose.connection.close();
       process.exit(0);
     });
+  }
+  initRedis() { 
+    require("./utlis/init_redis")
   }
   createServer() {
     try {
