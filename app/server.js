@@ -46,7 +46,7 @@ module.exports = class Application {
               },
             ],
           },
-          apis: ["./app/router/*/*.js"],
+          apis: ["./app/router/*/*.js" , "./app/router/*.js"],
         })
       )
     );
