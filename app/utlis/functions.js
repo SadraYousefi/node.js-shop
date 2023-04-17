@@ -3,6 +3,8 @@ const JWT = require("jsonwebtoken");
 const { UserModel } = require("../models/user");
 require("dotenv").config()
 const {redisClient} = require("./init_redis")
+const fs = require('fs')
+const path = require('path')
 function randomNumberGenerator() {
   return Math.floor(Math.random() * 100000);
 }
@@ -64,9 +66,15 @@ function verifyRefreshToken(token) {
   })
 }
 
+function deletePublicImage(filename) { 
+  const filepath = path.join(__dirname , ".." , "..","public" ,filename )
+  console.log(filepath);
+  fs.unlinkSync(filepath)
+}
 module.exports = {
   randomNumberGenerator,
   signAccessToken ,
   signRefreshToken ,
-  verifyRefreshToken
+  verifyRefreshToken,
+  deletePublicImage
 };

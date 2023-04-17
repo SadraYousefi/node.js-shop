@@ -1,11 +1,24 @@
 const { BlogModel } = require('../../../models/blog')
+const { createPostValidation } = require('../../validators/admin/blog.schema')
+const path = require('path')
 const Controller = require('./../controller')
+const { deletePublicImage } = require('../../../utlis/functions')
+const { log } = require('console')
 class BlogAdminController extends Controller {
-    createPost(req , res , next) { 
+    async createPost(req , res , next) { 
         try {
-            
+            await createPostValidation.validateAsync(req.body)
+            let image = path.join(req.body.fileUploadPath , req.body.filename)
+            image = image.replace(/\\/g , "/")
+            req.body.image = image ;
+            const {title , short_text , category , tags , text} = req.body
+            const post = await BlogModel.create({title , short_text , image , category , tags , text})
+            res.status(200).json({
+                data
+            })
             
         } catch (error) {
+            deletePublicImage(req.body.image)
             next(error)
         }
     }

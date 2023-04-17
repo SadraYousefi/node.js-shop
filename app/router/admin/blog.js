@@ -23,7 +23,7 @@ router.get('/' , BlogAdminController.getAllPost)
  *      post : 
  *          summary : Adding post
  *          description : get required data for adding post + examples
- *          consumer : 
+ *          consumes : 
  *              -   multipart/form-data
  *          tags : [BlogAdminRoutes]
  *          parameters : 
@@ -32,7 +32,7 @@ router.get('/' , BlogAdminController.getAllPost)
  *                  required : true
  *                  type : string                
  *              -   in : formData
- *                  name : short-text
+ *                  name : short_text
  *                  required : true
  *                  type : string                
  *              -   in : formData
@@ -50,7 +50,10 @@ router.get('/' , BlogAdminController.getAllPost)
  *              -   in : formData
  *                  name : image
  *                  required : true
- *                  type : file                
+ *                  type : file   
+ *          responses :
+ *              200 :    
+ *                  description : Success              
  */
 router.post('/add' ,uploadFile.single("image"),stringToArray('tags') , BlogAdminController.createPost)
 
