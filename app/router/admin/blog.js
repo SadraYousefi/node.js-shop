@@ -4,6 +4,8 @@ const { uploadFile } = require("../../utlis/multer")
 
 const router = require("express").Router()
 
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgwMzQ5MSwiZXhwIjoxNjgxODA3MDkxfQ.RJoL0RbJdkZmhzg4b5N9WkWhy5ci2pt_4P99TbufcM0
+
 /**
  * @swagger
  *  /admin/blog:
@@ -11,6 +13,13 @@ const router = require("express").Router()
  *              summary : All POSTS
  *              tags : [BlogAdminRoutes]
  *              description : return all posts of blog
+ *              parameters : 
+ *              -   in : header
+ *                  name : accesstoken
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgwNzI3MiwiZXhwIjoxNjgxODEwODcyfQ.qyFe0Y9vHiDIsVmcb7UdLRNHebk8sn-l2LnX1_eCiAA
+ *                  required : true
+ *                  type : string
+ *                  example : bearer ...token
  *              responses : 
  *                  200 : 
  *                      description : Success
@@ -27,6 +36,12 @@ router.get('/' , BlogAdminController.getAllPost)
  *              -   multipart/form-data
  *          tags : [BlogAdminRoutes]
  *          parameters : 
+ *              -   in : header
+ *                  name : accesstoken
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgwNzI3MiwiZXhwIjoxNjgxODEwODcyfQ.qyFe0Y9vHiDIsVmcb7UdLRNHebk8sn-l2LnX1_eCiAA
+ *                  required : true
+ *                  type : string
+ *                  example : bearer ...token
  *              -   in : formData
  *                  name : title
  *                  required : true
@@ -41,6 +56,7 @@ router.get('/' , BlogAdminController.getAllPost)
  *                  type : string                
  *              -   in : formData
  *                  name : category
+ *                  value : 643c31c49720615be7b8f715
  *                  required : true
  *                  type : string                
  *              -   in : formData
@@ -52,8 +68,8 @@ router.get('/' , BlogAdminController.getAllPost)
  *                  required : true
  *                  type : file   
  *          responses :
- *              200 :    
- *                  description : Success              
+ *              201 :    
+ *                  description : Created             
  */
 router.post('/add' ,uploadFile.single("image"),stringToArray('tags') , BlogAdminController.createPost)
 

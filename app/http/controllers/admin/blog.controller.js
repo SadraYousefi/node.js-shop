@@ -12,9 +12,13 @@ class BlogAdminController extends Controller {
             image = image.replace(/\\/g , "/")
             req.body.image = image ;
             const {title , short_text , category , tags , text} = req.body
-            const post = await BlogModel.create({title , short_text , image , category , tags , text})
-            res.status(200).json({
-                data
+            const author = req.user._id
+            const post = await BlogModel.create({author ,title , short_text , image , category , tags , text})
+            res.status(201).json({
+                data : {
+                    statusCode : 201 , 
+                    msg : "Post has been created successfully"
+                }
             })
             
         } catch (error) {
@@ -38,7 +42,41 @@ class BlogAdminController extends Controller {
     }
     async getAllPost(req , res , next) { 
         try {
-            const posts = await BlogModel.find({})
+            const posts = await BlogModel.aggregate([
+                {
+                    $match : {}
+                } ,
+                {
+                    $lookup : {
+                        from : "users" ,
+                        localField : "author" ,
+                        foreignField : "_id" ,
+                        as : "author"
+                    }
+                } ,
+                {
+                    $unwind : "$author"
+                },
+                {
+                    $project : {
+                        "author.__v" : 0 , 
+                        "category.__v" : 0 , 
+                        "author.bills" : 0 , 
+                        "author.roles" : 0 , 
+                        "author.discount" : 0 , 
+                        "author.otp" : 0 , 
+                    }
+                },
+                {
+                    $lookup :{ 
+                        from : "categories" ,
+                        localField : "category" ,
+                        foreignField : "category" ,
+                        as : "category"
+
+                    }
+                }
+            ])
             return res.status(200).json({
                 data : {
                     statusCode : 200 , 

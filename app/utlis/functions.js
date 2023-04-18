@@ -68,7 +68,6 @@ function verifyRefreshToken(token) {
 
 function deletePublicImage(filename) { 
   const filepath = path.join(__dirname , ".." , "..","public" ,filename )
-  console.log(filepath);
   fs.unlinkSync(filepath)
 }
 module.exports = {
