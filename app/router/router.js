@@ -2,14 +2,15 @@ const { redisClient } = require("../utlis/init_redis");
 const { APIRoutes } = require("./api");
 const { DeveloperRoutes } = require("./developer");
 const { authRoutes } = require("./user/auth");
-const {AdminRoutes} = require('./admin/admin.routes')
+const {AdminRoutes} = require('./admin/admin.routes');
+const { verifyAccessToken, checkRole } = require("../http/middleware/verifyAccessToken");
 const router = require("express").Router();
 
 
 router.use("/user", authRoutes);
 router.use("/", APIRoutes);
 router.use("/developer" , DeveloperRoutes)
-router.use('/admin' , AdminRoutes)
+router.use('/admin' , verifyAccessToken , checkRole("ADMIN") , AdminRoutes)
 module.exports = {
   allRoutes: router,
 };

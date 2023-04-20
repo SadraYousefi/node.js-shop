@@ -10,6 +10,11 @@ const router = require("express").Router();
  *          description : creating category using title and parent objectID
  *          tags: [Admin-Routes]
  *          parameters : 
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *              - name : title
  *                description : enter title for category
  *                in : formData
@@ -32,6 +37,12 @@ router.route("/add").post(CategoryController.addCategory)
  *      tags : [Admin-Routes]
  *      summary : Getting all parent of categories
  *      description : only get parents
+ *      parameters : 
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *      responses:
  *          200 :
  *              description : Suceess
@@ -45,6 +56,12 @@ router.get('/parents' ,CategoryController.getParentsCategories )
  *          summary : return all categories
  *          description : returning all category including parent and childs
  *          tags : [Admin-Routes]
+ *          parameters : 
+ *               -  in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *          responses :
  *              200 :    
  *                  description : Success
@@ -60,6 +77,11 @@ router.get('/getall/', CategoryController.getAllCategory)
  *          description : get all childs of specefic parent
  *          tags : [Admin-Routes]
  *          parameters :
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *              -   name : parent
  *                  in : path
  *                  type : string
@@ -79,6 +101,11 @@ router.post('/getchilds/:parent' , CategoryController.getChildCategories)
  *          description : using id as params to return specefic category by id
  *          tags : [Admin-Routes]
  *          parameters :
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *              -   name : id
  *                  in : path
  *                  type : string
@@ -98,6 +125,11 @@ router.get('/getbyid/:id' , CategoryController.getCategoryById)
  *          description : delete specefic category using id that given as params
  *          tags : [Admin-Routes]
  *          parameters :
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *              -   name : id
  *                  in : path
  *                  type : string
@@ -117,6 +149,11 @@ router.delete('/deletebyid/:id' , CategoryController.removeCategoryByID)
  *          description : update specefic category by given id
  *          tags : [Admin-Routes]
  *          parameters : 
+ *              -   in : header
+ *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
+ *                  requried : true
+ *                  type : string
+ *                  name : accesstoken
  *              -   in : path
  *                  name : id
  *                  type : string

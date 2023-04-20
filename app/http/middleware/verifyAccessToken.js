@@ -5,7 +5,6 @@ const JWT = require("jsonwebtoken");
 
 function verifyAccessToken(req, res, next) {
   const headers = req?.headers;
-  console.log(headers);
   const [bearer, token] = headers?.accesstoken?.split(" ") || [];
   if ((token, bearer?.toLowerCase() === "bearer")) {
     JWT.verify(
@@ -28,6 +27,26 @@ function verifyAccessToken(req, res, next) {
   } else return next(createHttpError.Unauthorized("please login first!"));
 }
 
+function getToken(headers) {
+  // const headers = headers;
+  const [bearer, token] = headers?.accesstoken?.split(" ") || [];
+  if (!token && bearer.toLowerCase() == "bearer")
+    throw createHttpError.Unauthorized("you are unautorized user");
+  return token;
+}
+
+function checkRole(role) {
+  return function (req, res, next) {
+    try {
+      const user = req.user;
+      if (user?.roles?.includes(role)) return next();
+      throw createHttpError.Forbidden(`Your role is : ${user.roles[0]} and you shoud be : "ADMIN" `);
+    } catch (error) {
+      next(error)
+    }
+  };
+}
 module.exports = {
   verifyAccessToken,
+  checkRole ,
 };
