@@ -1,5 +1,6 @@
 const joi = require('joi')
 const { MONGOIDPATTERN } = require('../../../utlis/constant')
+const createHttpError = require('http-errors')
 
 const createPostValidation = joi.object({
     title : joi.string().min(3).max(30).error(new Error('Title is not valid')) ,
@@ -11,6 +12,10 @@ const createPostValidation = joi.object({
     fileUploadPath : joi.allow()
 })
 
+const idValidation = joi.object({
+    id : joi.string().pattern(MONGOIDPATTERN).error(new createHttpError.BadRequest("id is not valid mongodb id"))
+})
 module.exports = { 
-    createPostValidation
+    createPostValidation ,
+    idValidation,
 }

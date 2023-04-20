@@ -7,17 +7,17 @@ const CommentSchema = new mongoose.Schema({
 });
 const Schema = new mongoose.Schema(
   {
-    author: { type: mongoose.Types.ObjectId, required: true },
+    author: { type: mongoose.Types.ObjectId, ref : "user" , required: true },
     title: { type: String, required: true },
     short_text: { type: String, required: true },
     text: { type: String, required: true },
     image: { type: String, required: true },
     tags: { type: [String], default: [] },
-    category: { type: [mongoose.Types.ObjectId], required: true },
+    category: { type: [mongoose.Types.ObjectId], ref : "category" , required: true },
     comments: { type: [CommentSchema], default: [] },
-    like: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
-    dislike: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
-    bookmarks: { type: [mongoose.Types.ObjectId], ref: "users", default: [] },
+    likes: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
+    dislikes: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
+    bookmarks: { type: [mongoose.Types.ObjectId], ref: "user", default: [] },
   },
   {
     timestamps: true,

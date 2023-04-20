@@ -8,4 +8,5 @@ module.exports = {
     TEACHER: "TEACHER",
     SUPPLIER: "SUPPLIER",
   },
+  NOTACCESPTABLEINPUT : [' ' , '' ,'0' , 0 , NaN , undefined , null] ,
 };

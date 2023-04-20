@@ -15,7 +15,7 @@ function signAccessToken(userId) {
         mobile : user.mobile ,
     };
     const options = {
-        expiresIn : "1h"
+        expiresIn : "1y"
     };
     JWT.sign(payload , process.env.ACCESS_TOKEN_SECRET_KEY ,options , (err , token)=> { 
         if(err) reject(createHttpError.InternalServerError("Internal Server"))
@@ -67,8 +67,10 @@ function verifyRefreshToken(token) {
 }
 
 function deletePublicImage(filename) { 
-  const filepath = path.join(__dirname , ".." , "..","public" ,filename )
-  fs.unlinkSync(filepath)
+  if(filename) {
+    const filepath = path.join(__dirname , ".." , "..","public" ,filename )
+    fs.unlinkSync(filepath)
+  }
 }
 module.exports = {
   randomNumberGenerator,

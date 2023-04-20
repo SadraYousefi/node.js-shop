@@ -1,3 +1,5 @@
+//Sign access token has been changed to 1 year for test purpose
+
 const Application = require("./app/server");
 require("dotenv").config();
 new Application(
