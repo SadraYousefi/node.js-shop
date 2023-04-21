@@ -35,6 +35,7 @@ module.exports = class Application {
       swaggerUI.setup(
         swaggerJsDoc({
           swaggerDefinition: {
+            openapi : "3.0.0" , 
             info: {
               title: "Simple Node.js shop",
               version: "1.0.0",
@@ -47,9 +48,10 @@ module.exports = class Application {
             ],
           },
           apis: ["./app/router/*/*.js" , "./app/router/*.js"],
-        })
+        }),
+        {explorer : true}
       )
-    );
+    ); //Swagger Setup
   }
   connectToDB() {
     mongoose.connect(this.#DB_URI);

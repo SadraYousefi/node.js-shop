@@ -5,6 +5,32 @@ const router = require("express").Router();
 
 /**
  * @swagger
+ *  components :
+ *    schemas :
+ *      GetOtp : 
+ *        type : object
+ *        required : 
+ *          - mobile
+ *        properties : 
+ *          mobile : 
+ *            type : string
+ *            description : User mobile for signup/in
+ *      CheckOtp : 
+ *        type : object
+ *        required : 
+ *          - mobile
+ *          - code
+ *        properties : 
+ *          mobile : 
+ *            type : string
+ *            description : User mobile
+ *          code : 
+ *            type : string
+ *            description : Otp code has been sended to user !
+ */
+
+/**
+ * @swagger
  *  tags : 
  *      name : User-Authentication
  *      description : user auth section
