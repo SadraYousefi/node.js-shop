@@ -8,6 +8,8 @@ const router = require('express').Router()
  *  tags : 
  *   -   name : Admin-Routes
  *       description : Test for all admin routes!
+ *   -   name : CategoryRoutes
+ *       description : All Routes For category
  *   -   name : BlogAdminRoutes
  *       description : available routes for blog management
  */

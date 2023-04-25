@@ -134,7 +134,6 @@ class BlogAdminController extends Controller {
                 if(NOTACCESPTABLEINPUT.includes(req.body[key])) {
                     delete req.body[key]
                 }})
-            // await createPostValidation.validateAsync(req.body)
             const result = await BlogModel.updateOne({_id : id} , {$set : req.body})
             if(result.modifiedCount == 0) throw createHttpError.InternalServerError("update failed")
             res.status(200).json({

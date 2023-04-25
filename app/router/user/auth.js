@@ -2,7 +2,7 @@ const {
   UserAuthController,
 } = require("../../http/controllers/user/auth/auth.controller");
 const router = require("express").Router();
-
+// swagger Schemas start
 /**
  * @swagger
  *  components :
@@ -27,7 +27,16 @@ const router = require("express").Router();
  *          code : 
  *            type : string
  *            description : Otp code has been sended to user !
+ *      RefreshToken : 
+ *        type : object
+ *        required : 
+ *          - refreshToken
+ *        properties : 
+ *          refreshToken : 
+ *            type : string
+ *            description : generate new token using refreshToken
  */
+//swagger Schemas end
 
 /**
  * @swagger
@@ -43,12 +52,15 @@ const router = require("express").Router();
  *          summary : login user to panel using number
  *          tags : [User-Authentication]
  *          description : OTP
- *          parameters : 
- *          -   name : mobile
- *              description : IR Phone Number
- *              in : formData
- *              required: true
- *              type: string
+ *          requestBody : 
+ *            required : true
+ *            content : 
+ *              application/x-www-form-urlencoded : 
+ *                schema : 
+ *                  $ref : '#/components/schemas/GetOtp'
+ *              application/json : 
+ *                schema : 
+ *                  $ref : '#/components/schemas/GetOtp'
  *          responses : 
  *              201:
  *                  description : Success
@@ -68,17 +80,15 @@ router.route("/login").post(UserAuthController.getOtp);
  *      summary : check otp sent by user to grant jwt token
  *      description : checkOTp
  *      tags: [User-Authentication]
- *      parameters:
- *      -   name : mobile
- *          description : IR phone number
- *          in: formData
- *          required: true
- *          type: string
- *      -   name: code
- *          description : code which sended to use number
- *          in: formData
- *          required: true
- *          type: string
+ *      requestBody : 
+ *        required : true
+ *        content : 
+ *          application/x-www-form-urlencoded : 
+ *            schema : 
+ *              $ref : '#/components/schemas/CheckOtp'
+ *          application/json : 
+ *            schema : 
+ *              $ref : '#/components/schemas/CheckOtp'
  *      responses : 
  *              201:
  *                  description : Success
@@ -98,11 +108,15 @@ router.route("/get-otp").post(UserAuthController.checkOtp)
  *    summary : send refresh token to get new token and refresh token
  *    description : refreshToken
  *    tags : [User-Authentication]
- *    parameters : 
- *    - in : body
+ *    requestBody : 
  *      required : true
- *      type : string 
- *      name : refreshToken
+ *      content : 
+ *        application/x-www-form-urlencoded : 
+ *          schema : 
+ *            $ref : "#/components/schemas/RefreshToken"
+ *        application/json : 
+ *          schema : 
+ *            $ref : "#/components/schemas/RefreshToken"
  *    responses : 
  *      200:
  *        description : success

@@ -5,7 +5,7 @@ const JWT = require("jsonwebtoken");
 
 function verifyAccessToken(req, res, next) {
   const headers = req?.headers;
-  const [bearer, token] = headers?.accesstoken?.split(" ") || [];
+  const [bearer, token] = headers?.authorization?.split(" ") || [];
   if ((token, bearer?.toLowerCase() === "bearer")) {
     JWT.verify(
       token,

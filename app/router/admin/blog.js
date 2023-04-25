@@ -1,8 +1,40 @@
 const { BlogAdminController } = require("../../http/controllers/admin/blog.controller")
 const { stringToArray } = require("../../http/middleware/stringToArray")
 const { uploadFile } = require("../../utlis/multer")
-
 const router = require("express").Router()
+
+/**
+ * @swagger
+ *  components : 
+ *      schemas : 
+ *          AddBlog : 
+ *              type : object
+ *              required : 
+ *                  -   title
+ *                  -   short_text
+ *                  -   text
+ *                  -   category
+ *                  -   image
+ *              properties : 
+ *                  title : 
+ *                      type : string
+ *                      description : Title of your blog
+ *                  short_text : 
+ *                      type : string
+ *                      description : your post content summary
+ *                  text : 
+ *                      type : string
+ *                      description : your post content 
+ *                  category : 
+ *                      type : string
+ *                      description : objectid for category
+ *                  tags : 
+ *                      type : string
+ *                      description : list of tags
+ *                  image : 
+ *                      type : file
+ *                      description : an image for your post
+ */
 
 
 /**
@@ -12,13 +44,6 @@ const router = require("express").Router()
  *              summary : All POSTS
  *              tags : [BlogAdminRoutes]
  *              description : return all posts of blog
- *              parameters : 
- *              -   in : header
- *                  name : accesstoken
- *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgwNzI3MiwiZXhwIjoxNjgxODEwODcyfQ.qyFe0Y9vHiDIsVmcb7UdLRNHebk8sn-l2LnX1_eCiAA
- *                  required : true
- *                  type : string
- *                  example : bearer ...token
  *              responses : 
  *                  200 : 
  *                      description : Success
@@ -31,41 +56,13 @@ router.get('/' , BlogAdminController.getAllPost)
  *      post : 
  *          summary : Adding post
  *          description : get required data for adding post + examples
- *          consumes : 
- *              -   multipart/form-data
  *          tags : [BlogAdminRoutes]
- *          parameters : 
- *              -   in : header
- *                  name : accesstoken
- *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
- *                  required : true
- *                  type : string
- *                  example : bearer ...token
- *              -   in : formData
- *                  name : title
- *                  required : true
- *                  type : string                
- *              -   in : formData
- *                  name : short_text
- *                  required : true
- *                  type : string                
- *              -   in : formData
- *                  name : text
- *                  required : true
- *                  type : string                
- *              -   in : formData
- *                  name : category
- *                  value : 643c31c49720615be7b8f715
- *                  required : true
- *                  type : string                
- *              -   in : formData
- *                  example : tag1#tag2#tag_sth || str || []
- *                  name : tags
- *                  type : string                
- *              -   in : formData
- *                  name : image
- *                  required : true
- *                  type : file   
+ *          requestBody : 
+ *              required : true 
+ *              content : 
+ *                  multipart/form-data : 
+ *                      schema : 
+ *                          $ref : "#/components/schemas/AddBlog"
  *          responses :
  *              201 :    
  *                  description : Created             
@@ -80,11 +77,6 @@ router.post('/add' ,uploadFile.single("image"),stringToArray('tags') , BlogAdmin
  *          tags : [BlogAdminRoutes]
  *          description : send valid mongodb
  *          parameters : 
- *              -   in : header
- *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
- *                  requried : true
- *                  type : string
- *                  name : accesstoken
  *              -   in : path
  *                  name : id
  *                  description : send valid mongodb id
@@ -104,11 +96,6 @@ router.get('/getpost/:id' , BlogAdminController.getPostById)
  *          summary : delete post by id
  *          tags : [BlogAdminRoutes]
  *          parameters : 
- *              -   in : header
- *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
- *                  requried : true
- *                  type : string
- *                  name : accesstoken
  *              -   in : path
  *                  name : id
  *                  description : send valid mongodb id
@@ -131,12 +118,6 @@ router.delete("/:id" , BlogAdminController.deletePostById)
  *              -   multipart/form-data
  *          tags : [BlogAdminRoutes]
  *          parameters : 
- *              -   in : header
- *                  name : accesstoken
- *                  value : bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtb2JpbGUiOiIwOTkxOTkyNzA5MSIsImlhdCI6MTY4MTgzNjgwNiwiZXhwIjoxNzEzMzk0NDA2fQ.iBNgVMWtt1KszG_0ZCgB6CQ0_Ne_pgUdTTm9S4oB2ZY
- *                  required : true
- *                  type : string
- *                  example : bearer ...token
  *              -   in : path
  *                  name : id
  *                  required : true

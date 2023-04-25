@@ -46,6 +46,17 @@ module.exports = class Application {
                 url: "http://localhost:3000",
               },
             ],
+            components : {
+              securitySchemes : {
+                BearerAuthentication : {
+                  type : 'http' ,
+                  scheme : 'bearer' ,
+                  bearerFormat : "JWT" ,
+
+                }
+              }
+            } ,
+            security : [{BearerAuthentication : []}]
           },
           apis: ["./app/router/*/*.js" , "./app/router/*.js"],
         }),
