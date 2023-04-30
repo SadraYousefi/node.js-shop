@@ -1,10 +1,6 @@
 const { default: mongoose } = require("mongoose");
-const CommentSchema = new mongoose.Schema({
-  owner: { type: mongoose.Types.ObjectId, ref: "users", required: true },
-  comment: { type: String , required: true },
-  createdAt: { type: Date, default: Date.now() },
-  parent: { type: mongoose.Types.ObjectId, default: undefined },
-});
+const { CommentSchema } = require("./global.schemas");
+
 const Schema = new mongoose.Schema(
   {
     author: { type: mongoose.Types.ObjectId, ref : "user" , required: true },
@@ -26,5 +22,4 @@ const Schema = new mongoose.Schema(
 );
 module.exports = {
   BlogModel: mongoose.model("blog", Schema),
-  CommentModel: mongoose.model("comment", CommentSchema),
 };

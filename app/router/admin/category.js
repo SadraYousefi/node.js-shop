@@ -173,6 +173,9 @@ router.delete('/deletebyid/:id' , CategoryController.removeCategoryByID)
  *                  application/x-www-form-urlencoded : 
  *                      schema : 
  *                          $ref : "#/components/schemas/Category"
+ *                  application/json : 
+ *                      schema : 
+ *                          $ref : "#/components/schemas/Category"
  *          responses : 
  *              200 : 
  *                  description : Success

@@ -1,22 +1,23 @@
 const { default: mongoose } = require("mongoose");
+const { CommentSchema } = require("./global.schemas");
 
 const Schema = new mongoose.Schema({
   title: { type: String, required: true },
-  short_desk: { type: String, required: true },
-  description: { type: String, required: true },
+  short_text: { type: String, required: true },
+  text: { type: String, required: true },
   images: { type: [String], required: true },
   tags: { type: [String], default: [] },
-  category: { type: mongoose.Types.ObjectId },
-  comments: { type: [], default: [] },
-  like: { type: [mongoose.Types.ObjectId], defualt: [] },
-  dislike: { type: [mongoose.Types.ObjectId], default: [] },
-  bookmark: { type: [mongoose.Types.ObjectId], default: [] },
+  category: { type: mongoose.Types.ObjectId , ref : "category" },
+  comments: { type: [CommentSchema], default: [] },
+  likes: { type: [mongoose.Types.ObjectId], defualt: [] },
+  dislikes: { type: [mongoose.Types.ObjectId], default: [] },
+  bookmarks: { type: [mongoose.Types.ObjectId], default: [] },
   price: { type: Number, default: 0 },
   discount: { type: Number, default: 0 },
-  type: { type: String },
-  format: { type: String },
+  count: { type: Number },
+  type: { type: String }, // Virtual or phisyical
   time: { type: String },
-  teacher: { type: mongoose.Types.ObjectId, required: true },
+  supplier: { type: mongoose.Types.ObjectId, required: true },
   features: {
     type: Object,
     default: {
