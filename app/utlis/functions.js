@@ -72,10 +72,16 @@ function deletePublicImage(filename) {
     fs.unlinkSync(filepath)
   }
 }
+
+function databasePathMaker(fileuploadpath , filename) {
+  return path.join(fileuploadpath , filename).replace(/\\/g , "/")
+}
 module.exports = {
   randomNumberGenerator,
   signAccessToken ,
   signRefreshToken ,
   verifyRefreshToken,
-  deletePublicImage
+  deletePublicImage,
+  databasePathMaker,
+  
 };
