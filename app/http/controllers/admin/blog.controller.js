@@ -11,10 +11,10 @@ const { array } = require('joi')
 class BlogAdminController extends Controller {
     async createPost(req , res , next) { 
         try {
-            await createPostValidation.validateAsync(req.body)
             let image = path.join(req.body.fileUploadPath , req.body.filename)
             image = image.replace(/\\/g , "/")
             req.body.image = image ;
+            await createPostValidation.validateAsync(req.body)
             const {title , short_text , category , tags , text} = req.body
             const author = req.user._id
             const post = await BlogModel.create({author ,title , short_text , image , category , tags , text})
