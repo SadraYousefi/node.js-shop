@@ -1,4 +1,5 @@
 const { ProductController } = require('../../http/controllers/admin/product.controller');
+const { filestoArray } = require('../../http/middleware/filesToArray');
 const { stringToArray } = require('../../http/middleware/stringToArray');
 const { uploadFile } = require('../../utlis/multer');
 
@@ -58,7 +59,10 @@ const router = require('express').Router();
  *                      type : number
  *                      description : the number of available for this products
  *                  image : 
- *                      type : file
+ *                      type : array
+ *                      items : 
+ *                          type : string
+ *                          format : binary
  *                      description : image
  */
 
@@ -78,8 +82,7 @@ const router = require('express').Router();
  *              200 : 
  *                  description : Succcess
  */
-
-router.post('/add' , uploadFile.single('image') ,stringToArray('tags'), ProductController.addProduct)
+router.post('/add' , uploadFile.array('image', 5), filestoArray ,stringToArray('tags'), ProductController.addProduct)
 
 /**
  * @swagger
@@ -92,6 +95,8 @@ router.post('/add' , uploadFile.single('image') ,stringToArray('tags'), ProductC
  *                  description : success
  */
 router.get("/" , ProductController.getAllProduct)
+
+
 module.exports = { 
     adminApiProductRouter : router
 }

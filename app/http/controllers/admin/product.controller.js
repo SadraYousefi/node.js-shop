@@ -15,11 +15,6 @@ class ProductController extends Controller {
   async addProduct(req, res, next) {
     try {
       await createProductValidation.validateAsync(req.body);
-      const image = databasePathMaker(
-        req.body.fileUploadPath,
-        req.body.filename
-      );
-      req.body.image = image;
       const user = await UserModel.findById({ _id: req.user._id });
       const {
         count,
@@ -43,7 +38,7 @@ class ProductController extends Controller {
         features: { length, height, weight, width },
         tags,
         category,
-        image,
+        image : req.images,
         supplier: req.user._id,
       });
       if (!result)
@@ -57,7 +52,7 @@ class ProductController extends Controller {
         },
       });
     } catch (error) {
-      deletePublicImage(req.body.image);
+      deletePublicImage(req.images);
       next(error);
     }
   }

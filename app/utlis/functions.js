@@ -66,11 +66,17 @@ function verifyRefreshToken(token) {
   })
 }
 
-function deletePublicImage(filename) { 
-  if(filename) {
-    const filepath = path.join(__dirname , ".." , "..","public" ,filename )
+function deletePublicImage(file) { 
+  if(Array.isArray(file)) {
+    for (const item of file) {
+      const filepath = path.join(__dirname , ".." , "..","public" ,item )
+      fs.unlinkSync(filepath)
+    }
+  }else {
+    const filepath = path.join(__dirname , ".." , "..","public" , file )
     fs.unlinkSync(filepath)
   }
+
 }
 
 function databasePathMaker(fileuploadpath , filename) {
