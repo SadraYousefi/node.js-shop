@@ -10,6 +10,7 @@ const {
 } = require("../../validators/admin/product.schema");
 const Controller = require("../controller");
 const path = require("path");
+const { idValidator } = require("../../validators/public.validator");
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -62,44 +63,31 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  removeProduct(req, res, next) {
+  async removeProduct(req, res, next) {
     try {
+      const {id} = req?.params || null
+      const product = await this.findProduct(id)
+      const result = await ProductModel.deleteOne({_id : product._id})
+      if(result.deletedCount == 0) throw createHttpError.InternalServerError("product Didn't deleted")
+      res.status(200).json({
+        data : {
+          statusCode : 200 , 
+          msg : "Product deleted successfully !"
+        }
+      })
     } catch (error) {
       next(error);
     }
   }
   async getAllProduct(req, res, next) {
     try {
-      const products = await ProductModel.aggregate([
-        {
-          $match : {}
-        } ,
-        {
-          $lookup : {
-            from : "users" ,
-            localField : "supplier" ,
-            foreignField : "_id" ,
-            as : "supplier"
-          }
-        },
-        {
-          $lookup : {
-            from : "categories" ,
-            localField : "category" ,
-            foreignField : "_id" ,
-            as : "category"
-          }
-        } ,
-        {
-          $project : {
-            "supplier.__v" : 0,
-            "supplier.otp" : 0,
-            "supplier._roles" : 0,
-            "supplier._bills" : 0,
-            "category.__v" : 0,
-          }
+      const search = req?.query?.search || ""
+      if(!search) return res.status(200).json({data : {statusCode : 200 , msg : await ProductModel.find({})}})
+      const products = await ProductModel.find({
+        $text : {
+          $search : search
         }
-      ])
+      })
       if(!products) throw createHttpError.NotFound('didnt found any record')
       res.status(200).json({
         data : {
@@ -111,11 +99,25 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  getProductByID(req, res, next) {
+  async findProductByID(req, res, next) {
+    const {id} = req?.params
+    const product = await this.findProduct(id)
+    res.status(201).json({
+      data : {
+        statusCode : 201 ,
+        product
+      }
+    })
     try {
     } catch (error) {
       next(error);
     }
+  }
+  async findProduct(productID) { 
+    await idValidator.validateAsync({id : productID}) ;
+    const product = await ProductModel.findById({_id : productID}) ;
+    if(!product) throw createHttpError.NotFound('Product did not founded')
+    return product
   }
 }
 
