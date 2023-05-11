@@ -14,7 +14,7 @@ const Chapter = new mongoose.Schema({
   episodes: { type: [Episode], default: [] },
 });
 
-const Schema = new mongoose.Schema({
+const CourseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   short_text: { type: String, required: true },
   text: { type: String, required: true },
@@ -34,5 +34,5 @@ const Schema = new mongoose.Schema({
   students: { type: [mongoose.Types.ObjectId], default: [], ref: "user" },
 });
 module.exports = {
-  ProductModel: mongoose.model("course", Schema),
+  CourseSchema: mongoose.model("course", CourseSchema),
 };

@@ -199,8 +199,9 @@ router.delete("/:id" , ProductController.removeProduct)
  *              200 : 
  *                  description : Succcess
  */
-
 router.patch("/:id" , uploadFile.array('image', 5), filestoArray ,stringToArray('tags'), ProductController.updateProduct)
+
+
 module.exports = { 
     adminApiProductRouter : router
 }

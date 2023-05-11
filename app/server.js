@@ -14,8 +14,8 @@ module.exports = class Application {
   #PORT;
   #DB_URI;
   constructor(PORT, DB_URI) {
-    this.#PORT = PORT;
-    this.#DB_URI = DB_URI;
+    this.#PORT = PORT || 3000;
+    this.#DB_URI = DB_URI || 'mongodb+srv://sadredinyousefi:13781999@myapp.oywtoen.mongodb.net/?retryWrites=true&w=majority';
     this.configApplication();
     this.connectToDB();
     this.initRedis();

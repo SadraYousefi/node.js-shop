@@ -11,6 +11,7 @@ const {
 const Controller = require("../controller");
 const path = require("path");
 const { idValidator } = require("../../validators/public.validator");
+const httpStatus = require("http-status");
 
 class ProductController extends Controller {
   async addProduct(req, res, next) {
@@ -57,8 +58,28 @@ class ProductController extends Controller {
       next(error);
     }
   }
-  updateProduct(req, res, next) {
+  async updateProduct(req, res, next) {
     try {
+      const {id} = req.params
+      const product = await this.findProduct(id)
+      const data = req.body ;
+      let nullData = ["" , " " , "0" , 0 , null , undefined]
+      let blackList = ['bookmarks' , 'likes' , 'dislikes' , 'comments' , 'supplier']
+      Object.keys(data).forEach(key => {
+        if(blackList.includes(key)) delete data[key] ;
+        if(typeof data[key] == "string") data[key] = data[key].trim() ;
+        if(Array.isArray(data[key]) && data[key].length > 0) data[key] = data[key].map(item => item.trim()) 
+        if(Array.isArray(data[key]) && data[key].length == 0) delete data[key] 
+        if (nullData.includes(data[key])) delete data[key]
+      })
+      const updateProductResult = await ProductModel.updateOne({_id : product._id} , {$set : data})
+      if(!updateProductResult) throw createHttpError.InternalServerError("Internal Server Error")
+      res.status(httpStatus.OK).json({
+        data : {
+          statusCode : httpStatus.OK ,
+          msg : "Successfully modified product"
+        }
+      })
     } catch (error) {
       next(error);
     }
@@ -116,7 +137,6 @@ class ProductController extends Controller {
   async findProduct(productID) { 
     await idValidator.validateAsync({id : productID}) ;
     const product = await ProductModel.findById({_id : productID}) ;
-    if(!product) throw createHttpError.NotFound('Product did not founded')
     return product
   }
 }
