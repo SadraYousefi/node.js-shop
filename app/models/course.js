@@ -18,7 +18,7 @@ const CourseSchema = new mongoose.Schema({
   title: { type: String, required: true },
   short_text: { type: String, required: true },
   text: { type: String, required: true },
-  images: { type: [String], required: true },
+  image: { type: String, required: true },
   tags: { type: [String], default: [] },
   category: { type: mongoose.Types.ObjectId, ref: "category" },
   comments: { type: [CommentSchema], default: [] },
@@ -26,13 +26,19 @@ const CourseSchema = new mongoose.Schema({
   dislikes: { type: [mongoose.Types.ObjectId], default: [] },
   bookmarks: { type: [mongoose.Types.ObjectId], default: [] },
   price: { type: Number, default: 0 },
+  status: {type : String , default : "notStarted"} ,
   discount: { type: Number, default: 0 },
   type: { type: String, default: "free", required: true }, // Premium , Free , forSale
   time: { type: String, default: "00:00:00" },
   teacher: { type: mongoose.Types.ObjectId, ref: "user", required: true },
-  chapter: { type: [Chapter], defualt: [] },
+  chapters: { type: [Chapter], defualt: [] },
   students: { type: [mongoose.Types.ObjectId], default: [], ref: "user" },
 });
+CourseSchema.index({
+  title : "text" ,
+  text : "text" ,
+  text : "text"
+})
 module.exports = {
-  CourseSchema: mongoose.model("course", CourseSchema),
+  CourseModel : mongoose.model("course", CourseSchema),
 };
