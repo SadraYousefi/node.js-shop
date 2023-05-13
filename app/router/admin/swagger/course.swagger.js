@@ -1,4 +1,3 @@
-
 /**
  * @swagger
  *  components : 
@@ -64,6 +63,10 @@
  *          responses : 
  *              200 : 
  *                  description : success 
+ *                  content : 
+ *                      application/json:
+ *                          schema:
+ *                              $ref : '#/definitions/ListOfCourses'
  */
 
 /**
@@ -98,4 +101,54 @@
  *          responses : 
  *              200 : 
  *                  description : success 
+ */
+
+/**
+ * @swagger
+ *  definitions:
+ *      ListOfCourses:
+ *          type: object
+ *          properties:
+ *              statusCode: 
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      courses:
+ *                          type: array
+ *                          items:
+ *                              type: object
+ *                              properties:
+ *                                  _id:
+ *                                      type: string
+ *                                      example: mongodb ID
+ *                                  title:
+ *                                      type: string
+ *                                      example: "title for our course"
+ *                                  text:
+ *                                      type: string
+ *                                      example: "description of your course"
+ *                                  short_text:
+ *                                      type: string
+ *                                      example: "short description for your course"
+ *                                  status:
+ *                                      type: string
+ *                                      example: "notStarted | Completed | Holding"
+ *                                  time:
+ *                                      type: string
+ *                                      example: "time format is like : 00:00:00"
+ *                                  price:
+ *                                      type: number
+ *                                      example: "200000"
+ *                                  discount:
+ *                                      type: number
+ *                                      example: "10"
+ *                                  studentCount:
+ *                                      type: number
+ *                                      example: "110"
+ *                                  teacher:
+ *                                      type: string
+ *                                      example: "Sadra Yousefi"
+ *              
  */

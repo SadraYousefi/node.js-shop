@@ -1,8 +1,10 @@
 /**
  * @swagger
  *  tags : 
+ *   -   name : ChapterAdminRoutes
+ *       description : routes for chapters
  *   -   name : CourseAdminRoutes
- *       description : routes for course and chapters
+ *       description : routes for courses
  *   -   name : Admin-Routes
  *       description : Test for all admin routes!
  *   -   name : ProductAdminRoutes

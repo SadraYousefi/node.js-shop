@@ -10,6 +10,7 @@ const {
 } = require("../../validators/admin/course.shcema");
 const createHttpError = require("http-errors");
 const { idValidator } = require("../../validators/public.validator");
+const { default: mongoose } = require("mongoose");
 
 class CourseController extends Controller {
   async getListOfCourses(req, res, next) {
@@ -73,8 +74,8 @@ class CourseController extends Controller {
     const course = await CourseModel.findById({_id : id})
     if(!course) throw createHttpError.NotFound("No Course Founded")
     return res.status(httpStatus.OK).json({
-        data :{
-            statusCode : httpStatus.OK , 
+      statusCode : httpStatus.OK , 
+      data :{
             course
         }
     })
@@ -82,6 +83,11 @@ class CourseController extends Controller {
     } catch (error) {
       next(error);
     }
+  }
+  async findCourseById(id) { 
+    const course = await CourseModel.findById({_id : id})
+    if(!course) throw createHttpError.NotFound("There is no course with this id")
+    return course ;
   }
 }
 module.exports = {
