@@ -1,4 +1,5 @@
-const { randomNumberGenerator } = require("../utlis/functions")
+const httpStatus = require("http-status");
+const { randomNumberGenerator, convertVideoTimeFormat } = require("../utlis/functions")
 const bcrypt = require("bcrypt")
 const router = require("express").Router()
 /**
@@ -42,6 +43,28 @@ router.route("/hash-string/:data").post((req , res , next)=>{
  */
 router.route('/random-number').get((req , res , next)=> {
     return res.send(randomNumberGenerator().toString())
+})
+
+/**
+ * @swagger
+ *  /developer/timeconvert:
+ *      post:
+ *          summary: time Converter
+ *          parameters:
+ *              -   in: query
+ *                  type: number
+ *                  name: time
+ *                  required: true
+ *          responses:
+ *              200:
+ *                  description: success
+ */
+router.post("/timeConvert" , (req , res , next) => {
+    const {time} = req.query
+    const result = convertVideoTimeFormat(time)
+    res.status(httpStatus.OK).json({
+        result
+    })
 })
 module.exports = {
     DeveloperRoutes : router
