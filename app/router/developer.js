@@ -50,6 +50,7 @@ router.route('/random-number').get((req , res , next)=> {
  *  /developer/timeconvert:
  *      post:
  *          summary: time Converter
+ *          tags: [Developer-Tools]
  *          parameters:
  *              -   in: query
  *                  type: number

@@ -14,7 +14,18 @@ const createCourseValidation = joi.object({
     filename : joi.string().pattern(/(\.png|\.jpg|\.webp|\.jpeg|\.gif)$/).error(new Error('Image is not valid')),
     fileUploadPath : joi.allow()
 })
+const createEpisodeValidation = joi.object({
+    title : joi.string().min(3).max(30).error(new Error('Title is not valid')) ,
+    text : joi.string().error(new Error('text is not valid')),
+    type : joi.string().error(new Error('type is not valid')),
+    courseID : joi.string().pattern(MONGOIDPATTERN).error(new Error('This id is not valid course')),
+    chapterID : joi.string().pattern(MONGOIDPATTERN).error(new Error('This id is not valid chapter')),
+    filename : joi.string().pattern(/(\.mp4|\.mov|\.mkv|\.mpg|\.avi)$/).error(new Error('Video is not valid')),
+    fileUploadPath : joi.allow() ,
+
+})
 
 module.exports = { 
     createCourseValidation ,
+    createEpisodeValidation ,
 }

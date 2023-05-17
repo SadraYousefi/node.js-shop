@@ -1,6 +1,10 @@
 /**
  * @swagger
  *  tags : 
+ *   -   name : UsersAdminPanel
+ *       description : management user
+ *   -   name : EpisodeAdminRoutes
+ *       description : routes for Episodes
  *   -   name : ChapterAdminRoutes
  *       description : routes for chapters
  *   -   name : CourseAdminRoutes

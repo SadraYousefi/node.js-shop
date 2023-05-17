@@ -47,6 +47,35 @@
  *                  image : 
  *                      type : string
  *                      format : binary
+ *          EditCourse :
+ *              type : object
+ *              properties :
+ *                  title : 
+ *                      type : string
+ *                      description : the title of Course
+ *                  text : 
+ *                      type : string
+ *                      description : Main Decription or Course
+ *                  short_text : 
+ *                      type : string
+ *                      description : short Description
+ *                  tags : 
+ *                      type : array
+ *                      description : tags for Course
+ *                  category : 
+ *                      type : string
+ *                      description : an mongodb objectid for category
+ *                  price : 
+ *                      type : number
+ *                      description : price for Course
+ *                  discount : 
+ *                      type : number
+ *                      description : discount code for Course
+ *                  type : 
+ *                      $ref : "#/components/schemas/TypesOfCourse"
+ *                  image : 
+ *                      type : string
+ *                      format : binary
  */
 
 /**
@@ -84,6 +113,27 @@
  *          responses : 
  *              200 : 
  *                  description : New Course Created
+ */
+/**
+ * @swagger
+ *  /admin/courses/{courseID} :
+ *      patch:
+ *          summary: editing course
+ *          tags: [CourseAdminRoutes]
+ *          parameters:
+ *              -   in: path
+ *                  type: string
+ *                  required: true
+ *                  name: courseID
+ *          requestBody :
+ *              required : true
+ *              content : 
+ *                  multipart/form-data:
+ *                      schema :
+ *                          $ref : "#/components/schemas/EditCourse"
+ *          responses : 
+ *              200 : 
+ *                  description : Course updated
  */
 
 

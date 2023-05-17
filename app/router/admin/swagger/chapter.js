@@ -17,6 +17,15 @@
  *                  text:
  *                      type: string
  *                      description: hey
+ *          EditChapter:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: hey
+ *                  text:
+ *                      type: string
+ *                      description: hey
  */
 
 /**
@@ -56,6 +65,17 @@
  *                                  type: array
  *                                  items:
  *                                      type: object
+ *      UpdateChapter:
+ *          type: object
+ *          properties:
+ *              statusCode:
+ *                  type: integer
+ *                  example: 200
+ *              data:
+ *                  type: object
+ *                  properties:
+ *                      msg:
+ *                          type: string
  */
 
 /**
@@ -100,4 +120,53 @@
  *                      application/json:
  *                          schema:
  *                              $ref: "#/definitions/ChapterList"
+ */
+/**
+ * @swagger
+ *  /admin/chapters/{id}:
+ *      delete:
+ *          summary: remove chapter by id
+ *          tags: [ChapterAdminRoutes]
+ *          parameters:
+ *              -   in: path
+ *                  name: id
+ *                  type: string
+ *                  required: true
+ *                  example: 645f5555a214db3f1ea0fe23
+ *          responses:
+ *              200:
+ *                  description: Success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: "#/definitions/ChapterList"
+ */
+
+/**
+ * @swagger
+ *  /admin/chapters/{chapterID}:
+ *      patch:
+ *          summary: edit chapter
+ *          tags: [ChapterAdminRoutes]
+ *          parameters: 
+ *              -   in: path
+ *                  name: chapterID
+ *                  required: true
+ *                  example: 645fa8bb3ea7df26260bb605
+ *          requestBody:
+ *              required: true
+ *              content:
+ *                  application/x-www-form-urlencoded:
+ *                      schema:
+ *                          $ref: "#/components/schemas/EditChapter"
+ *                  application/json:
+ *                      schema:
+ *                          $ref: "#/components/schemas/EditChapter"
+ *          responses:
+ *              200 :
+ *                  description: success
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              $ref: "#/definitions/UpdateChapter"
  */

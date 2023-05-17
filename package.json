@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "get-media-duration": "^1.0.1",
     "http-errors": "^2.0.0",
     "http-status": "^1.6.2",
     "joi": "^17.9.1",

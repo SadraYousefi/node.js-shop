@@ -4,6 +4,8 @@ const Controller = require("../controller");
 const {
   databasePathMaker,
   deletePublicImage,
+  deleteInvalidObjectData,
+  getCourseTime,
 } = require("../../../utlis/functions");
 const {
   createCourseValidation,
@@ -21,7 +23,14 @@ class CourseController extends Controller {
         course = await CourseModel.find({ $text: { $search: search } }).sort({
           _id: -1,
         });
-      else course = await CourseModel.find({}).sort({ _id: -1 });
+      else {
+        course = await CourseModel.aggregate([
+          {$match :{}} ,
+          {$lookup : {from : "categories" , localField: "category" , foreignField : "_id" , as : "category" }} ,
+          {$lookup : {from : "users" , localField : "teacher" , foreignField : "_id" , as : "teacher"}} ,
+          {$project : {"teacher._id" : 0 , "teacher.mobile" : 0 , "teacher.otp" : 0 ,"teacher.bills" : 0 ,"teacher.roles" : 0 , "teacher.discount" : 0 , "category.__v" : 0 , "teacher.__v" : 0 }}
+        ])
+      }
       res.status(httpStatus.OK).json({
         data: {
           statusCode: httpStatus.OK,
@@ -52,7 +61,6 @@ class CourseController extends Controller {
         discount,
         type,
         image,
-        time : "00:00:00" ,
         status : "notStarted",
         teacher
       });
@@ -69,19 +77,57 @@ class CourseController extends Controller {
     }
   }
   async getCourseByID(req, res, next) {
-    await idValidator.validateAsync(req.params)
-    const {id} = req.params
-    const course = await CourseModel.findById({_id : id})
-    if(!course) throw createHttpError.NotFound("No Course Founded")
-    return res.status(httpStatus.OK).json({
-      statusCode : httpStatus.OK , 
-      data :{
-            course
-        }
-    })
     try {
+      const {id} = req.params
+      await idValidator.validateAsync({id})
+      const course = await this.findCourseById(id)
+      return res.status(httpStatus.OK).json({
+        statusCode : httpStatus.OK , 
+        data :{
+              course
+          }
+      })
     } catch (error) {
       next(error);
+    }
+  }
+  async updateCourse(req,res,next) {
+    try {
+      const {courseID}= req.params
+      const {fileUploadPath , filename} = req.body
+      const image = databasePathMaker(fileUploadPath , filename)
+      req.image = image
+      await idValidator.validateAsync({id: courseID})
+      const course = await this.findCourseById(courseID)
+      const data = req.body
+      let allowedList = [
+        "title",
+        "short_text",
+        "text",
+        "tags",
+        "category",
+        "price",
+        "discount",
+        "type",
+        "image",
+        "status" ,
+      ]
+      deleteInvalidObjectData(data , allowedList)
+      if(req.file) { 
+        data.image = req.image ;
+        deletePublicImage(course.image)
+      }
+      const updateCourse = await CourseModel.updateOne({_id: courseID} , {$set : data} )
+      if(!updateCourse.modifiedCount) throw createHttpError.InternalServerError("Update was not successfull")
+      res.status(httpStatus.OK).json({
+        data: {
+          msg: "Updated Successfully"
+        }
+      })
+
+    } catch (error) {
+      deletePublicImage(req.image)
+      next(error)
     }
   }
   async findCourseById(id) { 

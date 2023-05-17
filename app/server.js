@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const { create } = require("domain");
 const createHttpError = require("http-errors");
 const swaggerUI = require("swagger-ui-express");
+require("dotenv").config()
 const swaggerJsDoc = require("swagger-jsdoc");
 const cors = require("cors")
 module.exports = class Application {
