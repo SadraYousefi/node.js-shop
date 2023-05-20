@@ -60,7 +60,7 @@ class UserAuthController extends Controller {
     return (await UserModel.create({
       mobile,
       otp,
-      roles : [USER_ROLE.USER]
+      Role : USER_ROLE.USER
     })) ;
   }
   async checkExistUser(mobile) {

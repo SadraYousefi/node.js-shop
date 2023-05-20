@@ -1,6 +1,8 @@
 /**
  * @swagger
  *  tags : 
+ *   -   name : RBACAdminPanel
+ *       description : management RoleBaseAccessControll
  *   -   name : UsersAdminPanel
  *       description : management user
  *   -   name : EpisodeAdminRoutes

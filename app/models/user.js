@@ -17,9 +17,10 @@ const Schema = new mongoose.Schema({
   bills: { type: [], default: [] },
   discount: { type: Number, default: 0 },
   birthday: { type: String },
-  roles: { type: [String], default: ["USER"] },
+  Role: { type: String, default: ["USER"] },
   courses: { type: [mongoose.Types.ObjectId], ref: "course", default: [] },
 });
+Schema.index({first_name : "text" , last_name : "text" , username : "text", mobile : "text" , email : "text"})
 module.exports = {
   UserModel: mongoose.model("user", Schema),
 };
